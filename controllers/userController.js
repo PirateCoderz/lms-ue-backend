@@ -1,15 +1,15 @@
-const User = require('../models/user');
+const users = require('../models/users');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { Student } = require('../models/student');
-const { Teacher } = require('../models/teacher');
+const { students } = require('../models/students');
+const { teachers } = require('../models/teachers');
 
 
 exports.signup = async (req, res) => {
   const { username, password } = req.body;
   try {
     const HashPassword = await bcrypt.hash(password, 8);
-    const user = await User.create({ username, password: HashPassword });
+    const user = await users.create({ username, password: HashPassword });
     res.json(user);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -21,9 +21,9 @@ exports.updatePass = async (req, res) => {
   try {
     const HashPassword = await bcrypt.hash(password, 8);
     console.log(HashPassword)
-    const olduser = await User.findOne({ username });
+    const olduser = await users.findOne({ username });
     console.log(olduser)
-    const user = await User.findOneAndUpdate({ username }, { password: HashPassword });
+    const user = await users.findOneAndUpdate({ username }, { password: HashPassword });
     res.json(user);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -36,9 +36,9 @@ exports.login = async (req, res) => {
     const { username, password } = req.body;
 
     // Find user with given email
-    const AllUsers = await User.find();
+    const AllUsers = await users.find();
     console.log(AllUsers)
-    const user = await User.findOne({ username });
+    const user = await users.findOne({ username });
     if (!user) {
       return res.status(400).json({ message: 'Invalid email or password' });
     }
@@ -65,12 +65,12 @@ exports.login = async (req, res) => {
 exports.loginClient = async (req, res) => {
   const { username, password } = req.body;
   // console.log(username,password);
-  let user = await Student.findOne({ regestrationNo: username });
+  let user = await students.findOne({ regestrationNo: username });
   console.log("student", user)
   let userType = 'Student';
 
   if (!user) {
-    user = await Teacher.findOne({ regestrationNo: username });
+    user = await teachers.findOne({ regestrationNo: username });
     console.log("Teacher", user);
 
     userType = 'Teacher';
@@ -100,14 +100,14 @@ exports.getUserDataById = async (req, res) => {
   let user;
 
   // Search for user in Student model
-  user = await Student.findById(userId);
+  user = await students.findById(userId);
   if (user) {
     console.log(user)
     return res.status(200).json({ user });
   }
 
   // Search for user in Teacher model
-  user = await Teacher.findById(userId);
+  user = await teachers.findById(userId);
   if (user) {
     return res.status(200).json({ user });
   }

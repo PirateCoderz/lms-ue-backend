@@ -1,4 +1,4 @@
-const Attendance = require("../models/attendence");
+const attendances = require("../models/attendences");
 
 const uploadAttendance = async (req, res) => {
   try {
@@ -11,17 +11,17 @@ const uploadAttendance = async (req, res) => {
       return res.status(400).json({ message: "Missing required fields" });
     }
 
-    const existingAttendance = await Attendance.findOne({ studentId, date });
+    const existingAttendance = await attendances.findOne({ studentId, date });
     if (existingAttendance) {
-      return res.status(400).json({ message: "Attendance already exists for this date" });
+      return res.status(400).json({ message: "attendance already exists for this date" });
     }
     // Save attendance data to database
-    const attendance = new Attendance({ studentId, date, status });
-    await attendance.save();
+    const attendanceData = new attendances({ studentId, date, status });
+    await attendanceData.save();
 
     return res
       .status(201)
-      .json({ message: "Attendance uploaded successfully" });
+      .json({ message: "attendance uploaded successfully" });
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
@@ -33,15 +33,15 @@ const getUserAttendance = async (req, res) => {
     const studentId = req.params.id;
 
     // Find all attendance records for the student
-    const attendance = await Attendance.find({ studentId });
+    const attendanceData = await attendances.find({ studentId });
 
     // If the student has no attendance records, return a 404 status code
-    if (attendance.length === 0) {
+    if (attendanceData.length === 0) {
       return res.status(404).json({ message: "No attendance records found" });
     }
 
     // If the student has attendance records, return them in the response
-    return res.status(200).json({ attendance });
+    return res.status(200).json({ attendanceData });
   } catch (err) {
     // If an error occurs, return a 500 status code with an error message
     return res.status(500).json({ message: err.message });
@@ -54,15 +54,15 @@ const getUserStatus = async (req, res) => {
     const { studentId, date } = req.params;
 
     // Find the attendance record for the student on the specified date
-    const attendance = await Attendance.findOne({ studentId, date });
+    const attendanceData = await attendances.findOne({ studentId, date });
 
     // If no attendance record exists for the student on the specified date, return a 404 status code
-    if (!attendance) {
+    if (!attendanceData) {
       return res.status(404).json({ message: "No attendance record found for this student on this date" });
     }
 
     // If an attendance record exists, return the attendance status in the response
-    return res.status(200).json({ status: attendance.status });
+    return res.status(200).json({ status: attendanceData.status });
   } catch (err) {
     // If an error occurs, return a 500 status code with an error message
     return res.status(500).json({ message: err.message });

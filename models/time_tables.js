@@ -16,6 +16,6 @@ const timeTableSchema = new mongoose.Schema({
   },
 });
 
-const TimeTable = mongoose.model("timeTable", timeTableSchema);
+const time_tables = mongoose.model("time_tables", timeTableSchema);
 
-exports.TimeTable = TimeTable;
+exports.time_tables = time_tables;

@@ -1,11 +1,11 @@
-const { TimeTable } = require("../models/timetable");
+const { time_tables } = require("../models/time_tables");
 
 // Create a new student
 const createTimeTable = async (req, res) => {
   try {
     console.log("req=====>", req.body);
 
-    const timeTable = new TimeTable(req.body);
+    const timeTable = new time_tables(req.body);
     await timeTable.save();
     res.send({
       data: timeTable,
@@ -20,7 +20,7 @@ const createTimeTable = async (req, res) => {
 // Get all students
 const getTimeTable = async (req, res) => {
   try {
-    const timeTable = await TimeTable.find({});
+    const timeTable = await time_tables.find({});
     res.send(timeTable);
   } catch (error) {
     res.status(500)
@@ -32,7 +32,7 @@ const getTimeTableByDepartment = async (req, res) => {
   console.log("courseName", courseName)
 
   try {
-    const timeTable = await TimeTable.find({ courseName: courseName });
+    const timeTable = await time_tables.find({ courseName: courseName });
     console.log("timeTable", timeTable);
     res.send(timeTable);
   } catch (error) {
@@ -44,7 +44,7 @@ const getTimeTableByDepartment = async (req, res) => {
 
 const deleteTimeTable = async (req, res) => {
   try {
-    const timeTable = await TimeTable.findByIdAndDelete(req.params.id);
+    const timeTable = await time_tables.findByIdAndDelete(req.params.id);
     if (!timeTable) {
       return res.status(404).send();
     }

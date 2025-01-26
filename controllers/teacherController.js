@@ -1,35 +1,68 @@
-const { Teacher } = require("../models/teacher");
+const { teachers } = require("../models/teachers");
 const bcrypt = require('bcrypt');
 
 
 // Create a new student
 const createTeacher = async (req, res) => {
   try {
-    console.log("req=====>", req.body);
-    const number = Math.floor(1000 + Math.random() * 9000);
-    const password = await bcrypt.hash(`ggcsf-2020-2024-${number}`,8)
+    console.log("Request Body:", req.body);
+
+    // Ensure unique registration number
+    let isUnique = false;
+    let registrationNo = null;
+
+    while (!isUnique) {
+      const number = Math.floor(1000 + Math.random() * 9000);
+      registrationNo = `ggcsf-2020-2024-${number}`;
+      const existingTeacher = await teachers.findOne({ registrationNo });
+
+      if (!existingTeacher) {
+        isUnique = true; // Break the loop if no collision
+      }
+    }
+
+    // Hash the unique registration number to generate a password
+    const password = await bcrypt.hash(registrationNo, 8);
+
+    // Build the teacher object
     const teacherData = {
-      ...req.body,
-      regestrationNo: `ggcsf-2020-2024-${number}`,
+      teacher_id: req.body.teacher_id,
+      first_name: req.body.first_name,
+      last_name: req.body.last_name,
+      gender: req.body.gender,
+      email: req.body.email,
+      phone_number: req.body.phone_number,
+      designation: req.body.designation,
+      department: req.body.department,
+      qualification: req.body.qualification,
+      office_phone: req.body.office_phone,
+      office_room: req.body.office_room,
+      registrationNo,
       password,
     };
-    const teacher = new Teacher(teacherData);
+
+    // Create and save the teacher record
+    const teacher = new teachers(teacherData);
     await teacher.save();
-    res.send({
+
+    res.status(201).send({
       data: teacher,
-      message: "User Create Successfully",
+      message: "Teacher created successfully",
     });
   } catch (error) {
-    console.log("error===>", error);
-    res.status(500)
+    console.error("Error:", error);
+    res.status(500).send({
+      message: "An error occurred while creating the teacher",
+    });
   }
 };
+
 
 // Get all teachers
 const getTeacher = async (req, res) => {
   try {
-    const teachers = await Teacher.find({});
-    res.send(teachers);
+    const teachersData = await teachers.find({});
+    res.send(teachersData);
   } catch (error) {
     res.status(500)
   }
@@ -38,8 +71,8 @@ const getTeacher = async (req, res) => {
 const getTeacherByDepartment = async (req, res) => {
   const department = req.params.department;
   try {
-    const teachers = await Teacher.find({ deparment: department });
-    res.send(teachers);
+    const teachersData = await teachers.find({ deparment: department });
+    res.send(teachersData);
   } catch (error) {
     res.status(500)
   }
@@ -48,7 +81,7 @@ const getTeacherByDepartment = async (req, res) => {
 // Get a single teacher by ID
 const getTeacherById = async (req, res) => {
   try {
-    const teacher = await Teacher.findById(req.params.id);
+    const teacher = await teachers.findById(req.params.id);
     if (!teacher) {
       return res.status(404).send();
     }
@@ -59,7 +92,7 @@ const getTeacherById = async (req, res) => {
 };
 const deleteTeacherById = async (req, res) => {
   try {
-    const teacher = await Teacher.findByIdAndDelete(req.params.id);
+    const teacher = await teachers.findByIdAndDelete(req.params.id);
     if (!teacher) {
       return res.status(404).send();
     }
@@ -72,7 +105,7 @@ const deleteTeacherById = async (req, res) => {
 // Update a teacher by ID
 const updateTeacherById = async (req, res) => {
   try {
-    const teacher = await Teacher.findByIdAndUpdate(req.params.id, req.body, {
+    const teacher = await teachers.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
     });
