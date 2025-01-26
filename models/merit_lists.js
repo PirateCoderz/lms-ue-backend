@@ -21,6 +21,6 @@ const meritlistSchema = new mongoose.Schema({
   },
 });
 
-const MeritList = mongoose.model("MeritList", meritlistSchema);
+const merit_lists = mongoose.model("merit_lists", meritlistSchema);
 
-exports.MeritList = MeritList;
+exports.merit_lists = merit_lists;

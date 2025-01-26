@@ -1,3 +1,4 @@
+require("dotenv").config();
 const mongoose = require("mongoose");
 const express = require("express");
 const studentRoutes = require("./routes/studentRoutes");
@@ -12,7 +13,6 @@ const attendanceRoutes = require("./routes/attendenceRoutes")
 const app = express();
 app.use(express.json());
 
-require("dotenv").config();
 const cors = require("cors");
 app.use(cors());
 app.use((req, res, next) => {
@@ -38,12 +38,11 @@ app.use("/api", attendanceRoutes);
 const port = process.env.PORT || 5000;
 const uri = process.env.DB_URI;
 
+console.log("Working part")
 app.listen(port, console.log(`sever running on port ${port}`));
+console.log("Port is working part")
 
 mongoose
-  .connect(uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("MongoDb Connection sucessfully...."))
-  .catch((error) => console.log("MongoDb connection failed", error.message));
+.connect(uri)
+.then(() => console.log("MongoDB connected successfully..."))
+.catch((error) => console.error("MongoDB connection failed:", error.message));

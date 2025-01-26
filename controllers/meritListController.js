@@ -1,11 +1,11 @@
-const { MeritList } = require("../models/meritlist");
+const { merit_lists } = require("../models/merit_lists");
 
 // Create a new student
 const createMeritList = async (req, res) => {
   try {
     console.log("req=====>", req.body);
   
-    const meritList = new MeritList(req.body);
+    const meritList = new merit_lists(req.body);
     await meritList.save();
     res.send({
       data: meritList,
@@ -20,7 +20,7 @@ const createMeritList = async (req, res) => {
 // Get all students
 const getMeritList = async (req, res) => {
   try {
-    const meritList = await MeritList.find({});
+    const meritList = await merit_lists.find({});
     res.send(meritList);
   } catch (error) {
     res.status(500);
@@ -31,7 +31,7 @@ const getMeritList = async (req, res) => {
 
 const deleteMeritListById = async (req, res) => {
   try {
-    const meritList = await MeritList.findByIdAndDelete(req.params.id);
+    const meritList = await merit_lists.findByIdAndDelete(req.params.id);
     if (!meritList) {
       return res.status(404).send();
     }

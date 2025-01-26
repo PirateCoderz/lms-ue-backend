@@ -21,6 +21,6 @@ const feeStructureSchema = new mongoose.Schema({
   },
 });
 
-const FeeStructure = mongoose.model("feeStructure", feeStructureSchema);
+const fee_structures = mongoose.model("fee_structures", feeStructureSchema);
 
-exports.FeeStructure = FeeStructure;
+exports.fee_structures = fee_structures;

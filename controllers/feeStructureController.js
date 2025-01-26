@@ -1,11 +1,11 @@
-const { FeeStructure } = require("../models/feeStructure");
+const { fee_structures } = require("../models/fee_structures");
 
 // Create a new student
 const createFeeStructure = async (req, res) => {
   try {
     console.log("req=====>", req.body);
   
-    const feeStructure = new FeeStructure(req.body);
+    const feeStructure = new fee_structures(req.body);
     await feeStructure.save();
     res.send({
       data: feeStructure,
@@ -20,7 +20,7 @@ const createFeeStructure = async (req, res) => {
 // Get all students
 const getFeeStructure = async (req, res) => {
   try {
-    const feeStructure = await FeeStructure.find({});
+    const feeStructure = await fee_structures.find({});
     res.send(feeStructure);
   } catch (error) {
     res.status(500)
@@ -31,7 +31,7 @@ const getFeeStructure = async (req, res) => {
 
 const deleteFeeStructureById = async (req, res) => {
   try {
-    const feeStructure = await FeeStructure.findByIdAndDelete(req.params.id);
+    const feeStructure = await fee_structures.findByIdAndDelete(req.params.id);
     if (!feeStructure) {
       return res.status(404).send();
     }
