@@ -1,20 +1,29 @@
 const mongoose = require("mongoose");
 
 const departmentSchema = new mongoose.Schema({
+  id: {
+    type: String,
+    unique: true, // Ensure unique department ID
+    required: true,
+  },
   title: {
     type: String,
-    required: true,
-    minLength: 3,
-    maxLength: 30,
+
   },
-  courseName: {
+  hod: {
     type: String,
-    required: true,
-    minLength: 3,
-    maxLength: 200,
   },
+  email: {
+    type: String,
+    // unique: true, // Ensure unique email
+  },
+  course: {
+    type: [String], // Array of strings to handle multiple programs
+    required: true,
+  },
+
 });
 
 const departments = mongoose.model("departments", departmentSchema);
 
-exports.departments = departments;
+module.exports = { departments };
