@@ -19,9 +19,15 @@ const departmentSchema = new mongoose.Schema({
   },
   course: {
     type: [String], // Array of strings to handle multiple programs
-    required: true,
+    // required: true,
   },
 
+  courseName: {
+    type: String,
+    required: true,
+    minLength: 3,
+    maxLength: 200,
+  },
 });
 
 const departments = mongoose.model("departments", departmentSchema);
