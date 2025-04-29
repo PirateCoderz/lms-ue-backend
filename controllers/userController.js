@@ -61,20 +61,20 @@ exports.login = async (req, res) => {
   }
 };
 
-
 exports.loginClient = async (req, res) => {
   const { username, password } = req.body;
   // console.log(username,password);
   let user = await students.findOne({ regestrationNo: username });
-  console.log("student", user)
+  console.log("students", user)
   let userType = 'Student';
 
   if (!user) {
     user = await teachers.findOne({ regestrationNo: username });
-    console.log("Teacher", user);
+    console.log("teachers", user);
 
     userType = 'Teacher';
   }
+
 
   if (!user) {
     return res.status(401).json({ message: 'Invalid username or password' });
@@ -100,14 +100,14 @@ exports.getUserDataById = async (req, res) => {
   let user;
 
   // Search for user in Student model
-  user = await students.findById(userId);
+  user = await students.findOne({ _id: userId });
   if (user) {
     console.log(user)
     return res.status(200).json({ user });
   }
 
   // Search for user in Teacher model
-  user = await teachers.findById(userId);
+  user = await teachers.findById({ _id: userId });
   if (user) {
     return res.status(200).json({ user });
   }

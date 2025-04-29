@@ -1,19 +1,21 @@
-require("dotenv").config();
 const mongoose = require("mongoose");
 const express = require("express");
 const studentRoutes = require("./routes/studentRoutes");
 const teacherRoutes = require("./routes/teacherRoutes");
+const assignmentRoutes = require("./routes/assignmentRoutes")
+const quizRoutes = require("./routes/quizRoutes")
+const courseMaterialRoutes = require("./routes/courseMaterialRoutes")
 const meritListRoutes = require("./routes/meritListRoutes");
 const feeStructureRoutes = require("./routes/feeStructureRoutes");
 const departmentRoutes = require("./routes/departmentRoutes");
 const timeRoutes = require("./routes/timeRoutes")
 const userRoutes = require("./routes/userRoutes")
 const attendanceRoutes = require("./routes/attendenceRoutes")
-const scholarshipRoutes = require("./routes/scholarshipRoutes");
 
 const app = express();
 app.use(express.json());
 
+require("dotenv").config();
 const cors = require("cors");
 app.use(cors());
 app.use((req, res, next) => {
@@ -28,24 +30,28 @@ app.get("/", (req, res) => {
 app.use("/api/students", studentRoutes);
 app.use("/api/teacher", teacherRoutes);
 app.use("/api/meritList", meritListRoutes);
+app.use('/api/assignment', assignmentRoutes)
+app.use('/api/quiz', quizRoutes)
+app.use('/api/material', courseMaterialRoutes)
 app.use("/api/timeTable", timeRoutes);
 app.use("/api/feeStructure", feeStructureRoutes);
 app.use("/api/department", departmentRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api", attendanceRoutes);
-// app.use("/api/scholarship", scholorshipRoutes);
-app.use("/api/scholarship", scholarshipRoutes);
 
+app.use('/assignments', express.static('public/assignments'));
+app.use('/materials', express.static('public/materials'));
 
 
 const port = process.env.PORT || 5000;
 const uri = process.env.DB_URI;
 
-console.log("Working part")
 app.listen(port, console.log(`sever running on port ${port}`));
-console.log("Port is working part")
 
 mongoose
-.connect(uri)
-.then(() => console.log("MongoDB connected successfully..."))
-.catch((error) => console.error("MongoDB connection failed:", error.message));
+  .connect(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("MongoDb Connection sucessfully...."))
+  .catch((error) => console.log("MongoDb connection failed", error.message));

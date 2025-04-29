@@ -2,76 +2,48 @@ const { students } = require("../models/students");
 const bcrypt = require('bcrypt');
 
 
-// Create a new student
-let rollNo = 14901;
-
 const createStudent = async (req, res) => {
   try {
-    console.log("Request Body:", req.body);
+    console.log("req=====>", req.body);
 
-    // Generate unique registration number
-    let isUnique = false;
-    let registrationNo = null;
-
-    while (!isUnique) {
-      const number = Math.floor(1000 + Math.random() * 9000);
-      registrationNo = `ggcsf-2020-2024-${number}`;
-      const existingStudent = await students.findOne({ registrationNo });
-      if (!existingStudent) {
-        isUnique = true;
-      }
-    }
+    // Generate a random number for the rollNo
+    const number = Math.floor(1000 + Math.random() * 9000);
 
     // Hash the password
-    const password = await bcrypt.hash(registrationNo, 8);
+    const password = await bcrypt.hash(`BSF210-${number}`, 8);
 
-    // Build the student data
     const studentData = {
-      student_id: req.body.student_id,
-      first_name: req.body.first_name,
-      last_name: req.body.last_name,
-      date_of_birth: req.body.date_of_birth,
-      gender: req.body.gender,
-      email: req.body.email,
-      phone_number: req.body.phone_number,
-      address: req.body.address,
-      city: req.body.city,
-      program: req.body.program,
-      department: req.body.department,
-      batch_year: req.body.batch_year || "2020-2024",
-      registrationNo,
+      ...req.body,
+      student_id: number,
+      regestrationNo: `BSF210-${number}`,
       password,
+      rollNo: number, // Random rollNo
     };
 
-    console.log("Student Data:", studentData);
+    console.log(studentData);
 
-    // Save the student record
+    // Create a new student with the data
     const student = new students(studentData);
+
+    // Save the student
     await student.save();
 
-    res.status(201).send({
+    res.send({
       data: student,
-      message: "Student created successfully",
+      message: "User Created Successfully",
     });
   } catch (error) {
-    console.error("Error:", error);
-    if (error.code === 11000) {
-      // Handle duplicate key errors
-      return res.status(400).send({
-        message: "Duplicate student_id, email, or registrationNo found.",
-      });
-    }
-    res.status(500).send({
-      message: "An error occurred while creating the student.",
-    });
+    console.log("error===>", error);
+    res.status(500).send({ message: "Error creating student." });
   }
 };
 
-// Get all students
+
+// Get all studentsdata
 const getStudents = async (req, res) => {
   try {
-    const studentsData = await students.find({});
-    return res.send(studentsData);
+    const studentsdata = await students.find({});
+    return res.send(studentsdata);
   } catch (error) {
     res.status(500);
   }
@@ -80,8 +52,8 @@ const getStudents = async (req, res) => {
 const getStudentsByDepartment = async (req, res) => {
   const department = req.params.department;
   try {
-    const studentsData = await students.find({ courseName: department });
-    res.send(studentsData);
+    const studentsdata = await students.find({ courseName: department });
+    res.send(studentsdata);
   } catch (error) {
     res.status(500);
   }
@@ -90,11 +62,11 @@ const getStudentsByDepartment = async (req, res) => {
 // Get a single student by ID
 const getStudentById = async (req, res) => {
   try {
-    const studentsData = await students.findById(req.params.id);
-    if (!studentsData) {
+    const student = await students.findById(req.params.id);
+    if (!student) {
       return res.status(404).send();
     }
-    res.send(studentsData);
+    res.send(student);
   } catch (error) {
     res.status(500);
   }

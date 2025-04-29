@@ -18,4 +18,4 @@ const timeTableSchema = new mongoose.Schema({
 
 const time_tables = mongoose.model("time_tables", timeTableSchema);
 
-exports.time_tables = time_tables;
+exports.TimeTable = time_tables;
