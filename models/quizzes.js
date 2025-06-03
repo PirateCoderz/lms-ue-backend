@@ -36,6 +36,9 @@ const quizSchema = new mongoose.Schema({
   dueDate: {
     type: Date,
   },
+  googleFormLink: {
+    type: String,
+  },
   startTime: {
     type: Date,  // <-- New field
     required: false,
