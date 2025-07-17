@@ -1,4 +1,3 @@
-```markdown
 # 🎓 LMS Portal Backend – Pirate Coderz ⚓
 
 Welcome to the backend repository of the **LMS UE Portal**, a university-level Learning Management System built for a client’s final year project.  
@@ -24,6 +23,7 @@ Crafted by **Pirate Coderz**, this system is designed with modularity, scalabili
 piratecoderz-lms-ue-backend/
 ├── index.js                # Main entry point
 ├── package.json            # Project dependencies and scripts
+├── .env                    # Environment variable
 ├── .env.example            # Environment variable sample
 ├── README.md               # You're reading it!
 │
@@ -58,7 +58,7 @@ piratecoderz-lms-ue-backend/
 git clone https://github.com/piratecoderz/lms-ue-backend.git
 
 # 2. Navigate to project
-cd lms-ue-backend
+cd piratecoderz-lms-ue-backend
 
 # 3. Install dependencies
 npm install
