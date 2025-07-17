@@ -1,77 +1,3 @@
-Of course! Here is your **README.md** file for your backend project, ready to copy and paste into your repo.
-
----
-
-````markdown
-# PirateCoderz LMS UE Backend
-
-Welcome to the backend repository of the **LMS Portal** built for a client’s final year university project by **Pirate Coderz**!
-
-This backend is a robust Node.js, Express, and MongoDB API for a university-grade Learning Management System. It handles students, teachers, assignments, quizzes, attendance, fee structure, merit lists, and much more. If you want to peek into scalable academic backend engineering, you’re in the right place!
-
----
-
-## 📋 Features
-
-- User Authentication (Students, Teachers, Admin)
-- Student & Teacher Management
-- Assignment Upload, Submission, Marking & Feedback
-- Quiz Management (Create, Attempt, Mark)
-- Course Materials Upload & Download
-- Attendance Tracking
-- Department, Fee Structure & Merit List Management
-- Timetable System
-
----
-
-## 📁 Project Structure
-
-```text
-piratecoderz-lms-ue-backend/
-├── README.md
-├── index.js
-├── package.json
-├── .env.example
-├── controllers/
-│   ├── assignmentController.js
-│   ├── attendenceController.js
-│   ├── courseMaterialController.js
-│   ├── departmentController.js
-│   ├── feeStructureController.js
-│   ├── meritListController.js
-│   ├── quizController.js
-│   ├── studentController.js
-│   ├── teacherController.js
-│   ├── timeTableController.js
-│   └── userController.js
-├── models/
-│   ├── assignments.js
-│   ├── attendences.js
-│   ├── departments.js
-│   ├── fee_structures.js
-│   ├── materials.js
-│   ├── merit_lists.js
-│   ├── quizzes.js
-│   ├── students.js
-│   ├── teachers.js
-│   ├── time_tables.js
-│   └── users.js
-└── routes/
-    ├── assignmentRoutes.js
-    ├── attendenceRoutes.js
-    ├── courseMaterialRoutes.js
-    ├── departmentRoutes.js
-    ├── feeStructureRoutes.js
-    ├── meritListRoutes.js
-    ├── quizRoutes.js
-    ├── studentRoutes.js
-    ├── teacherRoutes.js
-    ├── timeRoutes.js
-    └── userRoutes.js
-````
-
----
-
 ## 🛠️ Tech Stack
 
 * **Node.js** + **Express** (API & Middleware)
@@ -191,10 +117,4 @@ For client/academic use. For commercial use or customization, contact [Pirate Co
 
 > Built with ❤️ by **Pirate Coderz**
 
-```
-
----
-
-Copy the above and save as `README.md` in your project root.  
-Want it as a downloadable file? Let me know!
 ```
